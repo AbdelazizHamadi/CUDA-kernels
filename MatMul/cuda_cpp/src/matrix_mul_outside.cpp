@@ -3,35 +3,39 @@
 #include <opencv2/opencv.hpp>
 #include <chrono>
 #include <numeric>
-#define ROUNDS 5
+#define ROUNDS 10
 
 int main(int argc, char *argv[]) {
 
     // Define the matrix dimensions
-    // const int X = 16384, Y = 16384, Z = 16384;
     int X, Y, Z;
-
-    // Initialize matrices A and B
-    cv::Mat A = cv::Mat::ones(X, Y, CV_32F);
-    cv::Mat B = cv::Mat::ones(Y, Z, CV_32F);
-    cv::Mat C = cv::Mat::ones(X, Z, CV_32F);
-
-    // Fill matrices A and B with random values from 0 to 10
-    // cv::randu(A, cv::Scalar(0), cv::Scalar(10));
-    // cv::randu(B, cv::Scalar(0), cv::Scalar(10));
 
     std::array<int, 5> sizes = {2048, 4096, 8192, 12288, 128*128};
     std::array<float, ROUNDS> time_per_size;
 
     for (int i=0; i<sizes.size(); i++){
         
-
+        
         std::cout << "executing cuda Kernel (" << i << ")..." << std::endl;
         X = sizes[i];
         Y = sizes[i];
         Z = sizes[i];
+
+        // Initialize matrices A and B
+        cv::Mat A = cv::Mat::ones(X, Y, CV_32F);
+        cv::Mat B = cv::Mat::ones(Y, Z, CV_32F);
+        cv::Mat C = cv::Mat::ones(X, Z, CV_32F);
+        
+        // Get the size of the matrix
+        cv::Size size_A = A.size();
+        cv::Size size_B = A.size();
+        cv::Size size_C = A.size();
+
         std::cout << "A shape: (" << X << ", " << Y << ")" << std::endl;
         std::cout << "B shape: (" << Y << ", " << Z << ")" << std::endl;
+
+        std::cout << "A shape: (" << size_A.width << ", " << size_A.height << ")" << std::endl;
+        std::cout << "B shape: (" << size_B.width << ", " << size_B.height << ")" << std::endl;
         
         // create time
         float time = 0.0f;
@@ -47,6 +51,7 @@ int main(int argc, char *argv[]) {
         float sum = std::accumulate(time_per_size.begin(), time_per_size.end(), 0.0f);
 
         std::cout << "\nCUDA kernels execution complete in : " << sum / time_per_size.size() << std::endl;
+        
         /*
         // Print a portion of the result matrix
         std::cout << "Result matrix C (first [4, 4]):" << std::endl;

@@ -1,6 +1,6 @@
 # Matrix Multiplication using shared memory
 ## Repo Description
- In this Repo you will find two implementation of Matrix Multiplication using shared memory in python and C++
+ In this Repo you will find two implementations of Matrix Multiplication using shared memory in python and C++
 
 ### Run 
 <li> "C++" : build Cmake the file after installing Opencv and CUDA in your environment </li>
